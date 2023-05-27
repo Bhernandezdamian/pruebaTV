@@ -1,18 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Página del Monitor</title>
+  <title>Página del Móvil</title>
 </head>
 <body>
-  <div id="videoContainer"></div>
+  <button id="playButton">Dar clic para reproducir</button>
+  <button id="goToPageButton">Ir a otra página</button>
 
   <script>
-    window.addEventListener('message', function(event) {
-      var data = JSON.parse(event.data);
-      if (data.action === 'playVideo') {
-        var videoContainer = document.getElementById('videoContainer');
-        videoContainer.innerHTML = data.video;
-      }
+    document.getElementById('playButton').addEventListener('click', function() {
+      var url = 'tv.html'; // Reemplaza con la dirección de la otra página web
+      var videoUrl = 'https://ia902607.us.archive.org/11/items/el-proyecto-adam_202303/El%20Proyecto%20Adam.m4v'; // URL del video
+      var videoElement = document.createElement('video');
+      videoElement.src = videoUrl;
+      videoElement.autoplay = true;
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', url, true);
+      xhr.setRequestHeader('Content-Type', 'text/plain');
+      xhr.send(JSON.stringify({ action: 'playVideo', video: videoElement.outerHTML }));
+    });
+
+    document.getElementById('goToPageButton').addEventListener('click', function() {
+      window.location.href = 'tv.html'; // Reemplaza con la ruta de la otra página
     });
   </script>
 </body>

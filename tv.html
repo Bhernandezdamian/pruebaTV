@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Página del Monitor</title>
+</head>
+<body>
+  <div id="videoContainer"></div>
+
+  <script>
+    window.addEventListener('message', function(event) {
+      var data = JSON.parse(event.data);
+      if (data.action === 'playVideo') {
+        var videoContainer = document.getElementById('videoContainer');
+        videoContainer.innerHTML = data.video;
+      }
+    });
+  </script>
+</body>
+</html>
+
