@@ -1,56 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Página de TV</title>
-  <style>
-    body {
-      background-color: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
-    }
-    
-    video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  </style>
+  <title>Página del Monitor</title>
 </head>
 <body>
-  <video id="mi-video" autoplay controls></video>
+  <div id="videoContainer"></div>
 
   <script>
-    // Verificar si el navegador es compatible con Cast API
-    if (chrome.cast && chrome.cast.isAvailable) {
-      inicializar();
-    } else {
-      // Agrega la referencia a la librería Cast API
-      var script = document.createElement('script');
-      script.src = 'https://www.gstatic.com/cv/js/receiver/v1/cast_receiver.js';
-      script.onload = function() {
-        inicializar();
-      };
-      document.body.appendChild(script);
-    }
-
-    function inicializar() {
-      var castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
-
-      // Crear un manejador de mensajes
-      castReceiverManager.onMessage = function(event) {
-        // Obtener el elemento de video en tu página
-        var video = document.getElementById('mi-video');
-
-        // Cambiar el origen del video
-        video.src = event.data;
-      };
-
-      // Iniciar el receptor
-      castReceiverManager.start();
-    }
+    window.addEventListener('message', function(event) {
+      var data = JSON.parse(event.data);
+      if (data.action === 'playVideo') {
+        var videoContainer = document.getElementById('videoContainer');
+        videoContainer.innerHTML = data.video;
+      }
+    });
   </script>
 </body>
 </html>
